@@ -1,7 +1,9 @@
 using Serilog;
 using TuneTalk.Core;
 using TuneTalk.Core.Entities;
+using TuneTalk.Core.Interfaces.IClients;
 using TuneTalk.Infrastructure;
+using TuneTalk.Infrastructure.Clients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,8 +32,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCoreServices();
-builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services
+    .AddCoreServices()
+    .AddInfrastructureServices(builder.Configuration);
+
+builder.Services.AddHttpClient<ISpotifyClient, SpotifyClient>();
 
 var app = builder.Build();
 
