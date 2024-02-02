@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TuneTalk.Core.Entities;
+using TuneTalk.Core.Interfaces.IClients;
 using TuneTalk.Core.Interfaces.IRepositories;
+using TuneTalk.Infrastructure.Clients;
 using TuneTalk.Infrastructure.Data;
 using TuneTalk.Infrastructure.Repositories;
 
@@ -15,16 +17,17 @@ public static class ServiceExtensions
     {
         services.AddDbContext<TuneTalkDbContext>(options => 
             options.UseNpgsql(configuration.GetConnectionString("TuneTalkDb")));
-
-        services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
+        
+        services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
         services.AddAuthorizationBuilder();
         
         services.AddIdentityCore<User>()
             .AddEntityFrameworkStores<TuneTalkDbContext>()
             .AddApiEndpoints();
 
-        services.AddTransient<IUserRepository, UserRepository>();
-        
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ISpotifyClient, SpotifyClient>();
+
         return services;
     }
 }
