@@ -33,7 +33,7 @@ const Login = () => {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      const response = await axios.post('auth/login',
+      const response = await axios.post('Auth/login',
         JSON.stringify(data),
         {
           headers: {'Content-Type': 'application/json'}
