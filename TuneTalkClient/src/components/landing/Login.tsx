@@ -4,6 +4,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "../../axios/axios";
 import FormInput from "../FormInput";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const loginSchema = z.object({
   email: z.string().email().trim(),
@@ -13,7 +15,13 @@ const loginSchema = z.object({
 type Inputs = z.infer<typeof loginSchema>
 
 const Login = () => {
+  const { setAuth } = useAuth();
+
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home";
 
   const { 
     register,
@@ -39,7 +47,14 @@ const Login = () => {
           headers: {'Content-Type': 'application/json'}
         }
       );
-      console.log(response.data);
+
+      setAuth({
+        username: response?.data?.username, 
+        accessToken: response?.data?.accessToken, 
+        role: response?.data?.role
+      });
+
+      navigate(from, { replace: true });
     } catch (error : any) {
       if(!error?.response){
         setError('No response');
@@ -69,7 +84,6 @@ const Login = () => {
         name="email" 
         error={errors.email?.message}
       />
-
       <FormInput 
         type="password" 
         placeholder="Password" 
