@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "../../axios/axios";
+import FormInput from "../FormInput";
 
 const loginSchema = z.object({
   email: z.string().email().trim(),
@@ -38,6 +39,7 @@ const Login = () => {
           headers: {'Content-Type': 'application/json'}
         }
       );
+      console.log(response.data);
     } catch (error : any) {
       if(!error?.response){
         setError('No response');
@@ -59,10 +61,22 @@ const Login = () => {
       gap-3 p-4 white-98 w-1/2 rounded-2xl"
       >
       <h2 className="form-h2 white-98">Login</h2>
-      <input className="bg-[#0d0a15] rounded-2xl p-3" type="email" placeholder="Email" {...register("email")}/>
-      <p className="text-orange-600">{errors.email?.message}</p>
-      <input className="bg-[#0d0a15] rounded-2xl p-3" type="password" placeholder="Password" {...register("password")}/>
-      <p className="text-orange-600">{errors.password?.message}</p>
+
+      <FormInput 
+        type="email" 
+        placeholder="Email" 
+        register={register} 
+        name="email" 
+        error={errors.email?.message}
+      />
+
+      <FormInput 
+        type="password" 
+        placeholder="Password" 
+        register={register} 
+        name="password" 
+        error={errors.password?.message}
+      />
       
       <button className="form-button">Login</button>
       <p className="text-orange-600">{error}</p>
