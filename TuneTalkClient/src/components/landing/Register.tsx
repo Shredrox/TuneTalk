@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import FormInput from "../FormInput";
 
 const registerSchema = z.object({
-  username: z.string().trim().min(2, "Username must be at least 2 characters"),
+  name: z.string().trim().min(2, "Username must be at least 2 characters"),
   email: z.string().email().trim(),
   password: z.string().min(4, "Password must be at least 4 characters"),
   confirmPassword: z.string(),
@@ -29,7 +29,7 @@ const Register = () => {
     resolver: zodResolver(registerSchema)
   });
 
-  const watchName = watch("username");
+  const watchName = watch("name");
   const watchEmail = watch("email");
   const watchPassword = watch("password");
   const watchConfirmPassword = watch("confirmPassword");
@@ -52,6 +52,8 @@ const Register = () => {
     } catch (error : any) {
       if(!error?.response){
         setError('No response');
+      }else if(error.response?.status === 409){
+        setError('Username is already taken');
       }else if(error.response?.status === 400){
         setError('An error occurred');
       }else{
@@ -73,8 +75,8 @@ const Register = () => {
         type="text" 
         placeholder="Name" 
         register={register} 
-        name="username" 
-        error={errors.username?.message}
+        name="name" 
+        error={errors.name?.message}
       />
       <FormInput
         type="email" 
