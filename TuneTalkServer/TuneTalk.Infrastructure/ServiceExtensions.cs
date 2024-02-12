@@ -26,7 +26,10 @@ public static class ServiceExtensions
             .AddApiEndpoints();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<ISpotifyClient, SpotifyClient>();
+
+        services.AddSignalR();
 
         return services;
     }

@@ -8,6 +8,7 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ISpotifyService, SpotifyService>();
         return services;
     }
