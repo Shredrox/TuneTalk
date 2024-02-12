@@ -2,3 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  background-color: #0c0c0e;
+}
+
+.login-button{
+  width: 148px;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-family: 'Raleway', sans-serif;
+  background: linear-gradient(#8763D2, #7B4DDC82, #6E36E700);
+  border-style: none;
+  border-radius: 2rem 0 0 2rem;
+  transition: 0.3s;
+}
+
+.login-button:hover{
+  box-shadow: 0 0 15px #8763D2;
+}
+
+.login-button-active{
+  width: 148px;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-family: 'Raleway', sans-serif;
+  background: linear-gradient(#b89cf7, #432f6e);
+  transition: 0.3s;
+  border: 2px solid #7958c2;
+  border-radius: 2rem 0 0 2rem;
+}
+
+.register-button{
+  width: 148px;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-family: 'Raleway', sans-serif;
+  background: linear-gradient(#8763D2, #7B4DDC82, #6E36E700);
+  border-style: none;
+  border-radius: 0 2rem 2rem 0;
+  transition: 0.3s;
+}
+
+.register-button:hover{
+  box-shadow: 0 0 15px #8763D2;
+}
+
+.register-button-active{
+  width: 148px;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-family: 'Raleway', sans-serif;
+  background: linear-gradient(#b89cf7, #432f6e);
+  transition: 0.3s;
+  border: 2px solid #7958c2;
+  border-radius: 0 2rem 2rem 0;
+}
