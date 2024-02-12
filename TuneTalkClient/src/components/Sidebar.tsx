@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { IoHome } from "react-icons/io5";
 import { IoChatbubbles } from "react-icons/io5";
+import { RiPlayListFill } from "react-icons/ri";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -13,11 +14,12 @@ const Sidebar = () => {
 
   const linksData = [
     { id: 1, to: '/home', text: 'Home', icon: <IoHome/> },
-    { id: 2, to: '/chats', text: 'Chats', icon: <IoChatbubbles/> }
+    { id: 2, to: '/playlists', text: 'Playlists', icon: <RiPlayListFill/> },
+    { id: 3, to: '/chats', text: 'Chats', icon: <IoChatbubbles/> }
   ];
 
   return (
-    <div className="text-white bg-[#0f1012] h-screen sticky top-12 p-4 w-[140px]">
+    <div className="text-white bg-[#0f1012] h-screen sticky top-12 p-4 w-[150px]">
       <ul className='flex flex-col gap-2'>
         {linksData.map((link) =>
           <li key={link.id}>

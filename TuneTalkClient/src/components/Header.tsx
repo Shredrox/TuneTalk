@@ -14,6 +14,7 @@ const Header = () => {
   return (
     <div className="bg-[#18191b] text-white w-full flex justify-between items-center h-12 p-4 sticky top-0">
       TuneTalk
+      <button onClick={() => navigate('/profile/hello')}>Profile</button>
       <button onClick={handleLogout}>Logout</button>
     </div>
   )

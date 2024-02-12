@@ -4,7 +4,9 @@ const Profile = () => {
   const {username} = useParams();
 
   return (
-    <div>Profile: {username} </div>
+    <div className='text-white p-6 flex justify-center w-full'>
+      Profile: {username} 
+    </div>
   )
 }
 
