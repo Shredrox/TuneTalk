@@ -20,4 +20,9 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
     {
         await userManager.CreateAsync(user, password);
     }
+    
+    public async Task UpdateUser(User user)
+    {
+        await userManager.UpdateAsync(user);
+    }
 }
