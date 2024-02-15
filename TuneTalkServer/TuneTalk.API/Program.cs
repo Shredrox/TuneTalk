@@ -49,8 +49,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
-app.MapIdentityApi<User>();
-
 app.UseHttpsRedirection();
 
 app.UseCors("AllowOrigin");
