@@ -20,10 +20,10 @@ public static class ServiceExtensions
         
         services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
         services.AddAuthorizationBuilder();
-        
+
         services.AddIdentityCore<User>()
             .AddEntityFrameworkStores<TuneTalkDbContext>()
-            .AddApiEndpoints();
+            .AddDefaultTokenProviders();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPostRepository, PostRepository>();
