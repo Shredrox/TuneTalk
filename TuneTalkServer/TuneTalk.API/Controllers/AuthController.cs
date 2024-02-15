@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using TuneTalk.Core.DTOs.Requests;
+using TuneTalk.Core.DTOs.Requests.Auth;
+using TuneTalk.Core.Exceptions;
 using TuneTalk.Core.Interfaces.IServices;
 
 namespace TuneTalk.API.Controllers;
@@ -9,13 +10,51 @@ namespace TuneTalk.API.Controllers;
 public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDTO dto)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        if (!await authService.Register(dto.Name, dto.Email, dto.Password))
+        try
         {
-            return Conflict("Username is already taken");
+            await authService.Register(request.Name, request.Email, request.Password);
+            return Created();
         }
-        
-        return Created();
+        catch (ArgumentException e)
+        {
+            return Conflict(e.Message);
+        }
+    }
+    
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        try
+        {
+            var response = await authService.Login(request.Email, request.Password);
+            
+            Response.Cookies.Append("AccessToken", response.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                Expires = DateTime.UtcNow.AddMinutes(15),
+                Domain = "localhost",
+                IsEssential = true,
+                SameSite = SameSiteMode.None
+            });
+            
+            Response.Cookies.Append("RefreshToken", response.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                Expires = DateTime.UtcNow.AddHours(1),
+                Domain = "localhost",
+                IsEssential = true,
+                SameSite = SameSiteMode.None
+            });
+            
+            return Ok(response.Username);
+        }
+        catch (UnauthorizedException e)
+        {
+            return Unauthorized(e.Message);
+        }
     }
 }
