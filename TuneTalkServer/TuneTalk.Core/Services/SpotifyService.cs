@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using TuneTalk.Core.DTOs.Responses;
+using TuneTalk.Core.DTOs.Responses.Spotify;
 using TuneTalk.Core.Exceptions;
 using TuneTalk.Core.Interfaces.IClients;
 using TuneTalk.Core.Interfaces.IServices;
@@ -52,7 +52,7 @@ public class SpotifyService(ISpotifyClient spotifyClient, IConfiguration configu
         }
     }
 
-    public async Task<SpotifyProfileResponse> GetUserSpotifyProfile(string token)
+    public async Task<SpotifyProfileDTO> GetUserSpotifyProfile(string token)
     {
         try
         {
@@ -63,9 +63,77 @@ public class SpotifyService(ISpotifyClient spotifyClient, IConfiguration configu
                 throw new SpotifyApiException("Error retrieving Spotify user data");
             }
             
-            var user = JsonConvert.DeserializeObject<SpotifyProfileResponse>(await response.Content.ReadAsStringAsync());
+            var user = JsonConvert.DeserializeObject<SpotifyApiProfileResponse>(await response.Content.ReadAsStringAsync());
 
-            return user ?? throw new JsonSerializationException();
+            var profile = new SpotifyProfileDTO
+            {
+                Username = user.Display_Name,
+                FollowerCount = user.Followers.Total,
+                ProfilePicture = user.Images[1].Url,
+                SpotifyPlan = user.Product
+            };
+            
+            return profile ?? throw new JsonSerializationException();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TopArtistDTO>> GetUserTopArtists(string token)
+    {
+        try
+        {
+            var response = await spotifyClient.GetUserTopArtists(token);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new SpotifyApiException("Error retrieving Spotify user top artists");
+            }
+            
+            var rootObject = JsonConvert.DeserializeObject<UserTopArtistsResponse>(await response.Content.ReadAsStringAsync());
+
+            var artistDtos = rootObject?.Items.Select(item => 
+                new TopArtistDTO(
+                    item.Name,
+                    item.Popularity,
+                    item.Images.OrderByDescending(img => img.Width * img.Height).FirstOrDefault()?.Url
+                )
+            ).ToList();
+            
+            return artistDtos ?? throw new JsonSerializationException();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+    }
+    
+    public async Task<List<TopSongDTO>> GetUserTopSongs(string token)
+    {
+        try
+        {
+            var response = await spotifyClient.GetUserTopSongs(token);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new SpotifyApiException("Error retrieving Spotify user top artists");
+            }
+            
+            var rootObject = JsonConvert.DeserializeObject<UserTopSongsResponse>(await response.Content.ReadAsStringAsync());
+
+            var songDtos = rootObject?.Items.Select(item => 
+                new TopSongDTO(
+                    item.Name,
+                    item.Album.Artists.First().Name,
+                    item.Album.Images.OrderByDescending(img => img.Width * img.Height).FirstOrDefault()?.Url
+                )
+            ).ToList();
+            
+            return songDtos ?? throw new JsonSerializationException();
         }
         catch (Exception ex)
         {
