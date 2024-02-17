@@ -3,7 +3,7 @@ import { getSpotifyProfile } from "../../services/spotifyService";
 
 const useSpotifyProfileData = () =>{
   const { 
-    data: spotifyProfile, 
+    data: spotifyProfileData, 
     isLoading: isSpotifyProfileLoading, 
     isError: isSpotifyProfileError,
     error: spotifyProfileError 
@@ -13,7 +13,7 @@ const useSpotifyProfileData = () =>{
   });
 
   return {
-    spotifyProfile, 
+    spotifyProfileData, 
     isSpotifyProfileLoading, 
     isSpotifyProfileError, 
     spotifyProfileError
