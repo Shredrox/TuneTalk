@@ -92,7 +92,7 @@ const Login = () => {
         error={errors.password?.message}
       />
       
-      <button className="form-button">Login</button>
+      <button className="bg-[#0d0a15] rounded-2xl p-2">Login</button>
       <p className="text-orange-600">{error}</p>
     </form>
   )
