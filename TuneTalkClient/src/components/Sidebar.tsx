@@ -2,14 +2,13 @@ import { Link, useLocation } from 'react-router-dom'
 import { IoHome } from "react-icons/io5";
 import { IoChatbubbles } from "react-icons/io5";
 import { RiPlayListFill } from "react-icons/ri";
+import { Button } from './Button';
 
 const Sidebar = () => {
   const location = useLocation();
   
   const isActive = (path : string) =>{
-    return location.pathname.includes(path) ? 
-    'bg-black' : 
-    ''
+    return location.pathname.includes(path);
   }
 
   const linksData = [
@@ -19,24 +18,25 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="text-white bg-[#0f1012] h-screen sticky top-12 p-4 w-[150px]">
+    <aside className="bg-secondary h-screen fixed top-12 left-0 p-4 min-w-[150px]">
       <ul className='flex flex-col gap-2'>
         {linksData.map((link) =>
           <li key={link.id}>
-            <Link key={link.id} to={link.to}>
-              <button 
-                key={link.id} 
-                className={`flex items-center text-xl p-2 rounded gap-2
-                ${isActive(link.to)}`}
-                >
+            <Button 
+              key={link.id} 
+              asChild
+              variant={isActive(link.to) ? "default" : "outline"}
+              className='flex gap-1'
+              >
+              <Link key={link.id} to={link.to}>
                 {link.icon}
                 {link.text}
-              </button>
-            </Link>
+              </Link>
+            </Button>
           </li>
         )}
       </ul>
-    </div>
+    </aside>
   )
 }
 
