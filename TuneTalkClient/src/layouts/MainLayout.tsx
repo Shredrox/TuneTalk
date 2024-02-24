@@ -6,10 +6,12 @@ const MainLayout = () => {
   return (
     <>
       <Header/>
-      <main className='flex h-[200vh]'>
+      <div className='min-h-screen'>
         <Sidebar/>
-        <Outlet />
-      </main>
+        <main className='ml-[150px] mt-12 p-6'>
+          <Outlet />
+        </main>
+      </div>
     </>
   )
 }
