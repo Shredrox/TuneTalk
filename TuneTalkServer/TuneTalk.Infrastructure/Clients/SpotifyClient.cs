@@ -1,4 +1,7 @@
 ﻿using System.Net.Http.Headers;
+using System.Text;
+using Newtonsoft.Json;
+using TuneTalk.Core.DTOs.Requests.Spotify;
 using TuneTalk.Core.Interfaces.IClients;
 
 namespace TuneTalk.Infrastructure.Clients;
@@ -10,6 +13,13 @@ public class SpotifyClient(HttpClient httpClient) : ISpotifyClient
         const string tokenEndpoint = "https://accounts.spotify.com/api/token";
         
         return await httpClient.PostAsync(tokenEndpoint, parameters);
+    }
+    
+    public async Task<HttpResponseMessage> CreatePlaylist(string token, string userId, StringContent requestContent)
+    {
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        
+        return await httpClient.PostAsync($"https://api.spotify.com/v1/users/{userId}/playlists", requestContent);
     }
 
     public async Task<HttpResponseMessage> GetUserInfo(string token)

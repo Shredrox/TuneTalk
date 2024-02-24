@@ -6,4 +6,5 @@ public interface ISpotifyClient
     Task<HttpResponseMessage> GetUserInfo(string token);
     Task<HttpResponseMessage> GetUserTopArtists(string token);
     Task<HttpResponseMessage> GetUserTopSongs(string token);
+    Task<HttpResponseMessage> CreatePlaylist(string token, string userId, StringContent requestContent);
 }

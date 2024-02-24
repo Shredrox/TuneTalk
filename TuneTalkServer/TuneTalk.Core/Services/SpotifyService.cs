@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Text;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using TuneTalk.Core.DTOs.Requests.Spotify;
 using TuneTalk.Core.DTOs.Responses.Spotify;
 using TuneTalk.Core.Exceptions;
 using TuneTalk.Core.Interfaces.IClients;
@@ -14,7 +16,7 @@ public class SpotifyService(ISpotifyClient spotifyClient, IConfiguration configu
     public string GetSpotifyLoginUrl()
     {
         var state = GenerateRandomString(16);
-        const string scope = "user-read-private user-read-email user-top-read";
+        const string scope = "user-read-private user-read-email user-top-read playlist-modify-private playlist-modify-public";
 
         var redirectUrl = $"https://accounts.spotify.com/authorize?" +
                           $"response_type=code" +
@@ -140,6 +142,27 @@ public class SpotifyService(ISpotifyClient spotifyClient, IConfiguration configu
             Console.WriteLine(ex.Message);
             throw;
         }
+    }
+
+    public async void CreatePlaylist(string token, CreatePlaylistRequest request)
+    {
+        var requestContent = ToLowercaseJsonStringContent(request);
+        
+        await spotifyClient.CreatePlaylist(token, request.UserId, requestContent);
+    }
+    
+    private static StringContent ToLowercaseJsonStringContent(CreatePlaylistRequest request)
+    {
+        var dictionary = new Dictionary<string, object>
+        {
+            ["name"] = request.Name,
+            ["description"] = request.Description,
+            ["public"] = request.Public
+        };
+        
+        var jsonString = JsonConvert.SerializeObject(dictionary);
+
+        return new StringContent(jsonString, Encoding.UTF8, "application/json");
     }
 
     private static string GenerateRandomString(int length)

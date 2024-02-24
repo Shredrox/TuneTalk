@@ -1,4 +1,5 @@
-﻿using TuneTalk.Core.DTOs.Responses.Spotify;
+﻿using TuneTalk.Core.DTOs.Requests.Spotify;
+using TuneTalk.Core.DTOs.Responses.Spotify;
 
 namespace TuneTalk.Core.Interfaces.IServices;
 
@@ -9,4 +10,5 @@ public interface ISpotifyService
     Task<SpotifyProfileDTO> GetUserSpotifyProfile(string token);
     Task<List<TopArtistDTO>> GetUserTopArtists(string token);
     Task<List<TopSongDTO>> GetUserTopSongs(string token);
+    void CreatePlaylist(string token, CreatePlaylistRequest request);
 }

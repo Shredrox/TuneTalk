@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TuneTalk.Core.DTOs.Requests.Spotify;
 using TuneTalk.Core.DTOs.Responses.Spotify;
 using TuneTalk.Core.Exceptions;
 using TuneTalk.Core.Interfaces.IServices;
@@ -85,5 +86,19 @@ public class SpotifyController(ISpotifyService spotifyService) : ControllerBase
         var topSongs = await spotifyService.GetUserTopSongs(accessToken);
         
         return Ok(topSongs);
+    }
+
+    [HttpPost("create-playlist")]
+    public IActionResult CreatePlaylist([FromBody] CreatePlaylistRequest request)
+    {
+        var accessToken = Request.Cookies["SpotifyToken"];
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            return Unauthorized("Access token is required");
+        }
+        
+        spotifyService.CreatePlaylist(accessToken, request);
+        
+        return Created();
     }
 }
