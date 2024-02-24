@@ -2,6 +2,7 @@ import { FaSpotify } from "react-icons/fa";
 import Register from "./Register";
 import Login from "./Login";
 import { useState } from "react";
+import { Button } from "../Button";
 
 const AccessForm = () => {
   const [activeButton, setActiveButton] = useState('login');
@@ -15,23 +16,21 @@ const AccessForm = () => {
   }
 
   return (
-    <div className="flex flex-col items-center bg-[#1F2833] rounded-xl p-4 w-[420px] h-[500px]">
-      <div>
-        <button 
-          type='button'
+    <div className="flex flex-col items-center bg-card border rounded-xl p-4 w-[420px] h-[500px]">
+      <div className="flex gap-2">
+        <Button 
           onClick={() => handleButtonChange('login')} 
-          className={activeButton === 'login' ? 'login-button-active' : 'login-button'}>
+          variant={activeButton === 'login' ? "default" : "outline"}>
             Login
-        </button>
-        <button 
-          type='button'
+        </Button>
+        <Button 
           onClick={() => handleButtonChange('register')} 
-          className={activeButton === 'register' ? 'register-button-active' : 'register-button'}>
+          variant={activeButton === 'register' ? "default" : "outline"}>
             Register
-        </button>
+        </Button>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center h-[500px]">
         {activeButton === 'login' ? <Login/> : <Register/>}
       </div>
       
