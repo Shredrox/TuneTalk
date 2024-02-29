@@ -11,6 +11,7 @@ public static class ServiceExtensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ISpotifyService, SpotifyService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IPostService, PostService>();
         
         return services;
     }
