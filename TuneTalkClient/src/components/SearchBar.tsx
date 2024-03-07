@@ -16,7 +16,7 @@ const SearchBar = () => {
     queryKey: ["searchUsers", search],
     queryFn: () => getUserByName(search),
     enabled: false,
-    retry: 1
+    retry: 1,
   });
 
   useEffect(() => {
@@ -31,13 +31,13 @@ const SearchBar = () => {
 
   return (
     <div className="w-full">
-      <Input onChange={(e) => setSearch(e.target.value)} placeholder="🔎︎ Search"></Input>
+      <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="🔎︎ Search"></Input>
       {search !== '' &&
       <Card className="w-full flex flex-col justify-center gap-3 
       top-12 max-h-[500px] absolute z-10 p-4 overflow-y-scroll overflow-auto rounded-2xl">
         {searchUsers?.length > 0 ?
         searchUsers?.map((user, index) =>
-        <Card onClick={() => {navigate(`/profile/user`); setSearch('');}} className='p-4 flex items-center gap-3 cursor-pointer' key={index}>
+        <Card key={index} onClick={() => {navigate(`/profile/${user.name}`); setSearch('');}} className='p-4 flex items-center gap-3 cursor-pointer'>
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png"/>
             <AvatarFallback>{user.name}</AvatarFallback>
@@ -46,7 +46,7 @@ const SearchBar = () => {
         </Card>
         )
         : searchUsers?.length === 0 ? "User Not Found" 
-        : isError ? "Error"
+        : isError ? <p>{error.message}</p>
         : <div className="h-24 flex justify-center items-center"><Loading/></div>
         }
       </Card>
