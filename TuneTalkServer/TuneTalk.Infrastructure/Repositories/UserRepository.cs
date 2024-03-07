@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TuneTalk.Core.Entities;
 using TuneTalk.Core.Interfaces.IRepositories;
 
@@ -14,6 +15,15 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
     public async Task<User?> GetUserByName(string name)
     {
         return await userManager.FindByNameAsync(name);
+    }
+
+    public async Task<List<string>> SearchByName(string name)
+    {
+        return await userManager.Users
+            .Where(u => u.UserName.StartsWith(name))
+            .Select(u => u.UserName)
+            .Take(5)
+            .ToListAsync();
     }
 
     public async Task CreateUser(User user, string password)
