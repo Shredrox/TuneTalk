@@ -1,0 +1,58 @@
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Input } from "./Input";
+import { Card } from "./Card";
+import Loading from "./fallback/Loading";
+import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
+import { getUserByName } from "@/services/userService";
+
+const SearchBar = () => {
+  const [search, setSearch] = useState('');
+
+  const navigate = useNavigate();
+
+  const {data: searchUsers, isError, error, refetch} = useQuery({ 
+    queryKey: ["searchUsers", search],
+    queryFn: () => getUserByName(search),
+    enabled: false,
+    retry: 1
+  });
+
+  useEffect(() => {
+    const queryDelay = setTimeout(() => {
+      if(search !== ''){
+        refetch();
+      }
+    }, 1000)
+
+    return () => clearTimeout(queryDelay)
+  }, [search])
+
+  return (
+    <div className="w-full">
+      <Input onChange={(e) => setSearch(e.target.value)} placeholder="🔎︎ Search"></Input>
+      {search !== '' &&
+      <Card className="w-full flex flex-col justify-center gap-3 
+      top-12 max-h-[500px] absolute z-10 p-4 overflow-y-scroll overflow-auto rounded-2xl">
+        {searchUsers?.length > 0 ?
+        searchUsers?.map((user, index) =>
+        <Card onClick={() => {navigate(`/profile/user`); setSearch('');}} className='p-4 flex items-center gap-3 cursor-pointer' key={index}>
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png"/>
+            <AvatarFallback>{user.name}</AvatarFallback>
+          </Avatar>
+          {user.name}
+        </Card>
+        )
+        : searchUsers?.length === 0 ? "User Not Found" 
+        : isError ? "Error"
+        : <div className="h-24 flex justify-center items-center"><Loading/></div>
+        }
+      </Card>
+      }
+    </div>
+  )
+}
+
+export default SearchBar
