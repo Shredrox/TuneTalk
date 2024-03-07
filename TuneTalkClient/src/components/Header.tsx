@@ -15,6 +15,8 @@ import {
   User,
 } from "lucide-react"
 
+import SearchBar from "./SearchBar";
+
 const Header = () => {
   const navigate = useNavigate();
 
@@ -30,6 +32,9 @@ const Header = () => {
     border-b supports-[backdrop-filter]:bg-background/60 
     w-full flex justify-between items-center h-12 p-4 fixed top-0 z-50">
       <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">TuneTalk</h3>
+      <div className="w-1/3 flex relative">
+        <SearchBar/>
+      </div>
       <div className="flex gap-2">
         <ModeToggle/>
         <DropdownMenu>
