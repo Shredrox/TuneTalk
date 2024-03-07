@@ -9,6 +9,7 @@ public static class ServiceExtensions
     public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISpotifyService, SpotifyService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPostService, PostService>();
