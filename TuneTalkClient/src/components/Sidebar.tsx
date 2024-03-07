@@ -18,7 +18,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="bg-secondary h-screen fixed top-12 left-0 p-4 min-w-[150px]">
+    <aside className="bg-secondary h-screen fixed top-16 left-0 p-4 min-w-[150px]">
       <ul className='flex flex-col gap-2'>
         {linksData.map((link) =>
           <li key={link.id}>
