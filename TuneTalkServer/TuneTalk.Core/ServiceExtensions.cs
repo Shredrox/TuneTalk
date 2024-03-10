@@ -13,6 +13,7 @@ public static class ServiceExtensions
         services.AddScoped<ISpotifyService, SpotifyService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPostService, PostService>();
+        services.AddScoped<ITagService, TagService>();
         
         return services;
     }
