@@ -14,8 +14,10 @@ import {
   LogOut,
   User,
 } from "lucide-react"
-
+import { FaPlay, FaPause, FaVolumeUp } from "react-icons/fa";
+import { IoIosSkipBackward, IoIosSkipForward } from "react-icons/io";
 import SearchBar from "./SearchBar";
+import { Slider } from "./Slider";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -35,9 +37,23 @@ const Header = () => {
       <div className="w-1/3 flex relative">
         <SearchBar/>
       </div>
-      <div className="w-1/3 flex items-center gap-4">
-        <div className="w-12 h-12 bg-slate-500 flex justify-center items-center">yo</div>
-        <div className="w-[600px] h-6 bg-slate-500 flex items-center">ayo</div>
+      <div className="w-1/3 h-full flex items-center gap-3">
+        <img src="https://picsum.photos/1000/500" className="w-12 h-12 object-cover rounded"/>
+        <div className="flex flex-col min-w-fit">
+          <span className="text-xl">Dying Star</span>
+          <span className="text-sm">Periphery</span>
+        </div>
+        
+        <div className="w-[600px] h-full flex justify-center items-center gap-4">
+          <Slider/>
+          <div className="flex gap-4 items-center">
+            <IoIosSkipBackward className="w-6 h-6"/>
+            <FaPlay className="w-6 h-6"/>
+            <IoIosSkipForward className="w-6 h-6"/>
+          </div>
+        </div>
+        <FaVolumeUp className="w-12 h-12"/>
+        <Slider className="w-48"/>
       </div>
       <div className="flex gap-2">
         <ModeToggle/>
