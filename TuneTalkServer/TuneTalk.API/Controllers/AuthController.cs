@@ -30,6 +30,10 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             var response = await authService.Login(request.Email, request.Password);
             
+            var username = response.Username;
+            var accessToken = response.AccessToken;
+            var role = "USER";
+            
             Response.Cookies.Append("AccessToken", response.AccessToken, new CookieOptions
             {
                 HttpOnly = true,
@@ -50,7 +54,7 @@ public class AuthController(IAuthService authService) : ControllerBase
                 SameSite = SameSiteMode.None
             });
             
-            return Ok(response.Username);
+            return Ok(new { username, accessToken, role });
         }
         catch (UnauthorizedException e)
         {
