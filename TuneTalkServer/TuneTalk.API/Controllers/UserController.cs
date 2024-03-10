@@ -24,7 +24,7 @@ public class UserController(IUserService userService) : ControllerBase
         catch (NotFoundException e)
         {
             Console.WriteLine(e);
-            return NotFound();
+            return Ok(new List<UserSearchResultResponse>());
         }
     }
 }
