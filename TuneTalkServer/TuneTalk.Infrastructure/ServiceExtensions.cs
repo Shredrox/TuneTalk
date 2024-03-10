@@ -27,6 +27,7 @@ public static class ServiceExtensions
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<ISpotifyClient, SpotifyClient>();
 
         services.AddSignalR();
