@@ -5,7 +5,7 @@ import { Input } from "./Input";
 import { Card } from "./Card";
 import Loading from "./fallback/Loading";
 import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
-import { getUserByName } from "@/services/userService";
+import { getUsersByNameSearch } from "@/services/userService";
 
 const SearchBar = () => {
   const [search, setSearch] = useState('');
@@ -14,7 +14,7 @@ const SearchBar = () => {
 
   const {data: searchUsers, isError, error, refetch} = useQuery({ 
     queryKey: ["searchUsers", search],
-    queryFn: () => getUserByName(search),
+    queryFn: () => getUsersByNameSearch(search),
     enabled: false,
     retry: 1,
   });
