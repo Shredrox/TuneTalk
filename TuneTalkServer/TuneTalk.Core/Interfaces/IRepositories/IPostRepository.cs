@@ -4,6 +4,6 @@ namespace TuneTalk.Core.Interfaces.IRepositories;
 
 public interface IPostRepository
 {
-    Task CreatePost(Post post);
+    Task InsertPost(Post post);
     Task<Post?> GetPostById(Guid id);
 }
