@@ -13,10 +13,10 @@ public class TagService(ITagRepository tagRepository) : ITagService
             Name = name
         };
 
-        await tagRepository.CreateTag(tag);
+        await tagRepository.InsertTag(tag);
     }
 
-    public async Task<List<Tag>> GetAllTags()
+    public async Task<IEnumerable<Tag>> GetAllTags()
     {
         return await tagRepository.GetAllTags();
     }

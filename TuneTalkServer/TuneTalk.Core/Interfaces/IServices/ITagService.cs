@@ -5,5 +5,5 @@ namespace TuneTalk.Core.Interfaces.IServices;
 public interface ITagService
 {
     Task CreateTag(string name);
-    Task<List<Tag>> GetAllTags();
+    Task<IEnumerable<Tag>> GetAllTags();
 }
