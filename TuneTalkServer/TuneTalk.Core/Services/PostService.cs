@@ -15,6 +15,6 @@ public class PostService(IPostRepository postRepository) : IPostService
             Content = request.Content
         };
         
-        await postRepository.CreatePost(newPost);
+        await postRepository.InsertPost(newPost);
     }
 }
