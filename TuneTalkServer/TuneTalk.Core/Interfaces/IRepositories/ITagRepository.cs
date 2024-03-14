@@ -4,6 +4,6 @@ namespace TuneTalk.Core.Interfaces.IRepositories;
 
 public interface ITagRepository
 {
-    Task CreateTag(Tag tag);
-    Task<List<Tag>> GetAllTags();
+    Task InsertTag(Tag tag);
+    Task<IEnumerable<Tag>> GetAllTags();
 }

@@ -7,13 +7,13 @@ namespace TuneTalk.Infrastructure.Repositories;
 
 public class TagRepository(TuneTalkDbContext context) : ITagRepository
 {
-    public async Task CreateTag(Tag tag)
+    public async Task InsertTag(Tag tag)
     {
         context.Tags.Add(tag);
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<Tag>> GetAllTags()
+    public async Task<IEnumerable<Tag>> GetAllTags()
     {
         return await context.Tags.ToListAsync();
     }
