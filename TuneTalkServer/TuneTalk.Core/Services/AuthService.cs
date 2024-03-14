@@ -25,7 +25,7 @@ public class AuthService(
             Email = email
         };
 
-        await userRepository.CreateUser(user, password);
+        await userRepository.InsertUser(user, password);
     }
 
     public async Task<LoginResponse> Login(string email, string password)

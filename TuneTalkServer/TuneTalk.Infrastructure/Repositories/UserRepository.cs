@@ -26,7 +26,7 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
             .ToListAsync();
     }
 
-    public async Task CreateUser(User user, string password)
+    public async Task InsertUser(User user, string password)
     {
         await userManager.CreateAsync(user, password);
     }
