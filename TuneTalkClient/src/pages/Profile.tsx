@@ -2,11 +2,19 @@ import { useParams } from 'react-router-dom'
 import { IoMusicalNote } from "react-icons/io5";
 import { FaGuitar, FaSpotify } from "react-icons/fa";
 import useSpotifyProfileData from '../hooks/query/useSpotifyProfileData';
+import Loading from '@/components/fallback/Loading';
 
 const Profile = () => {
   const {username} = useParams();
 
-  const { spotifyProfileData } = useSpotifyProfileData();
+  const { 
+    spotifyProfileData, 
+    isSpotifyProfileLoading 
+  } = useSpotifyProfileData();
+
+  if(isSpotifyProfileLoading){
+    return <Loading/>
+  }
 
   return (
     <div className='text-white p-6 flex items-center gap-4 w-full flex-col'>
