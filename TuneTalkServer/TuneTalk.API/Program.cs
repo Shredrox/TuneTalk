@@ -4,6 +4,7 @@ using TuneTalk.Core;
 using TuneTalk.Core.Interfaces.IClients;
 using TuneTalk.Infrastructure;
 using TuneTalk.Infrastructure.Clients;
+using TuneTalk.Infrastructure.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,5 +61,9 @@ app.UseCors("AllowOrigin");
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chats");
+
+app.MapHub<NotificationHub>("/notifications");
 
 app.Run();
