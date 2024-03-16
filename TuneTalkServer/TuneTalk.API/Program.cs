@@ -1,6 +1,6 @@
 using Serilog;
+using TuneTalk.API.Infrastructure;
 using TuneTalk.Core;
-using TuneTalk.Core.Entities;
 using TuneTalk.Core.Interfaces.IClients;
 using TuneTalk.Infrastructure;
 using TuneTalk.Infrastructure.Clients;
@@ -32,9 +32,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services
-    .AddCoreServices()
-    .AddInfrastructureServices(builder.Configuration);
+builder.Services.AddCoreServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+    
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddHttpClient<ISpotifyClient, SpotifyClient>();
 
@@ -50,6 +52,8 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.UseCors("AllowOrigin");
 
