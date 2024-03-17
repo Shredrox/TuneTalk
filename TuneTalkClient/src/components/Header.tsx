@@ -18,6 +18,7 @@ import { FaPlay, FaPause, FaVolumeUp } from "react-icons/fa";
 import { IoIosSkipBackward, IoIosSkipForward } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import { Slider } from "./Slider";
+import SpotifySearchBar from "./SpotifySearchBar";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -35,7 +36,8 @@ const Header = () => {
     w-full flex justify-between items-center h-16 p-4 fixed top-0 z-50">
       <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">TuneTalk</h3>
       <div className="w-1/3 flex relative">
-        <SearchBar/>
+        {/* <SearchBar/> */}
+        <SpotifySearchBar/>
       </div>
       <div className="w-1/3 h-full flex items-center gap-3">
         <img src="https://picsum.photos/1000/500" className="w-12 h-12 object-cover rounded"/>
