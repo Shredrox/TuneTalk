@@ -144,6 +144,31 @@ public class SpotifyService(ISpotifyClient spotifyClient, IConfiguration configu
         }
     }
 
+    public async Task<List<SearchSongDTO>> GetSongsBySearch(string token, string search)
+    {
+        try
+        {
+            var response = await spotifyClient.GetSongsBySearch(token, search);
+            var rootObject = JsonConvert.DeserializeObject<SpotifySongSearchResponse>(await response.Content.ReadAsStringAsync());
+            
+            var songDtos = rootObject?.Tracks.Items.Select(item => 
+                new SearchSongDTO(
+                    item.Id,
+                    item.Name,
+                    item.Artists.First().Name,
+                    item.Album.Images.OrderByDescending(img => img.Width * img.Height).FirstOrDefault()?.Url
+                )
+            ).ToList();
+            
+            return songDtos ?? throw new JsonSerializationException();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+    }
+
     public async void CreatePlaylist(string token, CreatePlaylistRequest request)
     {
         var requestContent = ToLowercaseJsonStringContent(request);
