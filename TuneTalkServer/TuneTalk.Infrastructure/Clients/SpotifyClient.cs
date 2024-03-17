@@ -1,7 +1,4 @@
 ﻿using System.Net.Http.Headers;
-using System.Text;
-using Newtonsoft.Json;
-using TuneTalk.Core.DTOs.Requests.Spotify;
 using TuneTalk.Core.Interfaces.IClients;
 
 namespace TuneTalk.Infrastructure.Clients;
@@ -15,13 +12,6 @@ public class SpotifyClient(HttpClient httpClient) : ISpotifyClient
         return await httpClient.PostAsync(tokenEndpoint, parameters);
     }
     
-    public async Task<HttpResponseMessage> CreatePlaylist(string token, string userId, StringContent requestContent)
-    {
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        
-        return await httpClient.PostAsync($"https://api.spotify.com/v1/users/{userId}/playlists", requestContent);
-    }
-
     public async Task<HttpResponseMessage> GetUserInfo(string token)
     {
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -41,5 +31,19 @@ public class SpotifyClient(HttpClient httpClient) : ISpotifyClient
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         return await httpClient.GetAsync("https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5&offset=0");
+    }
+    
+    public async Task<HttpResponseMessage> GetSongsBySearch(string token, string search)
+    {
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        
+        return await httpClient.GetAsync($"https://api.spotify.com/v1/search?q={search}&type=track&limit=10");
+    }
+    
+    public async Task<HttpResponseMessage> CreatePlaylist(string token, string userId, StringContent requestContent)
+    {
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        
+        return await httpClient.PostAsync($"https://api.spotify.com/v1/users/{userId}/playlists", requestContent);
     }
 }
