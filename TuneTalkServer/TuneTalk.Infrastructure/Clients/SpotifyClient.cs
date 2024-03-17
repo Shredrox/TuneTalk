@@ -37,7 +37,7 @@ public class SpotifyClient(HttpClient httpClient) : ISpotifyClient
     {
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         
-        return await httpClient.GetAsync($"https://api.spotify.com/v1/search?q={search}&type=track&limit=10");
+        return await httpClient.GetAsync($"https://api.spotify.com/v1/search?q={search}&type=track&limit=5");
     }
     
     public async Task<HttpResponseMessage> CreatePlaylist(string token, string userId, StringContent requestContent)
