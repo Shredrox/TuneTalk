@@ -87,6 +87,20 @@ public class SpotifyController(ISpotifyService spotifyService) : ControllerBase
         
         return Ok(topSongs);
     }
+    
+    [HttpGet("search/{searchTerm}")]
+    public async Task<IActionResult> GetSongsBySearch(string searchTerm)
+    {
+        var accessToken = Request.Cookies["SpotifyToken"];
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            return Unauthorized("Access token is required");
+        }
+
+        var searchSongs = await spotifyService.GetSongsBySearch(accessToken, searchTerm);
+        
+        return Ok(searchSongs);
+    }
 
     [HttpPost("create-playlist")]
     public IActionResult CreatePlaylist([FromBody] CreatePlaylistRequest request)
